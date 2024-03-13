@@ -25,8 +25,7 @@ interface Product {
 }
 
 function Home(): JSX.Element {
-  const [order, setOrder] = useState<string>("standard");
-  const [category, setCategory] = useState<string>("standard");
+  const [category, setCategory] = useState<string>("default");
   const [id, setId] = useState<number>(0);
   const [modalEdit, setModalEdit] = useState<boolean>(false);
   const [modalCreate, setModalCreate] = useState<boolean>(false);
@@ -79,7 +78,7 @@ function Home(): JSX.Element {
             Add new product
           </Button>
         </div>
-        <div>
+        {/* <div>
           <h2>Categories</h2>
           {loading && <p>Loading...</p>}
           <ul>
@@ -91,37 +90,21 @@ function Home(): JSX.Element {
               </li>
             ))}
           </ul>
+        </div> */}
+        <div className={styles.div_conifg}>
+          <Select
+            items={categories.map((category: string) => ({
+              value: category,
+              label: category,
+            }))}
+            value={category}
+            onChange={(value) => getProductsByCategory(value)}
+            defaultOption="Selecione categoria"
+            stylesSelect={{marginRight: "20px"}}
+          />
         </div>
       </section>
       <section>
-        <h2>Products</h2>
-        <Select
-          items={categories.map((category: string) => ({
-            value: category,
-            label: category,
-          }))}
-          value={category}
-          onChange={(value) => setCategory(value)}
-        />
-        <p>Ordenar</p>
-        <Select
-          items={[
-            {
-              value: "priceUp",
-              label: "Menor preço",
-            },
-            {
-              value: "priceDown",
-              label: "Maior preço",
-            },
-            {
-              value: "alpha",
-              label: "Ordem alfabética",
-            },
-          ]}
-          onChange={(value) => setOrder(value)}
-          value={order}
-        />
         <div>
           {loading && <p>Loading...</p>}
           {error && <p>Error: {error}</p>}

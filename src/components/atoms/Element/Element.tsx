@@ -13,7 +13,7 @@ interface ElementProps {
   category: string;
   description: string;
   image: string;
-  discountOercentage: number;
+  discountPercentage: number;
   price: number;
   rating: number;
   stock: number;
@@ -28,16 +28,16 @@ function Element({
   category,
   description,
   image,
-  discountOercentage,
+  discountPercentage,
   price,
   rating,
   stock,
   deleteProduct,
   editProduct,
 }: ElementProps): JSX.Element {
-
   return (
-    <tr>
+    <tr className={styles.rowContainer}>
+      <td>{id}</td>
       <td>
         <div className={styles.image_container}>
           {image && (
@@ -57,13 +57,33 @@ function Element({
       <td>{brand}</td>
       <td>{category}</td>
       <td>{price}</td>
-      <td>{stock}</td>
       <td>{rating}</td>
-      <td>{discountOercentage}</td>
-      <td>{id}</td>
-      <td>
-        <Button onClick={() => deleteProduct(id)}>Delete</Button>
-        <Button onClick={() => editProduct(id)}>Edit</Button>
+      <td>{discountPercentage}</td>
+      <td>{stock}</td>
+      <td className={styles.buttonsTd}>
+        <Button 
+        stylesButton={{
+          backgroundColor: "#00000000",
+          width: "auto",
+          height: "auto",
+          borderRadius: "10px",
+          margin: "5px",
+          color: '#413E4B',
+        }}
+        onClick={() => editProduct(id)}>Edit</Button>
+        <Button
+          stylesButton={{
+            backgroundColor: "#00000000",
+            width: "auto",
+            height: "auto",
+            borderRadius: "10px",
+            margin: "5px",
+            color: '#CF2020',
+          }}
+          onClick={() => deleteProduct(id)}
+        >
+          Delete
+        </Button>
       </td>
     </tr>
   );

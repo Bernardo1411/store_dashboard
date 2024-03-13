@@ -9,3 +9,32 @@
     font-size: 0.8rem;
     font-weight: semi-bold;
 }
+
+.button:active {
+    background-color: var(--red-dark);
+    transform: scale(0.95);
+    transition: all linear 0.5s;
+}
+
+.square {
+    width: 60px;
+    height: 60px;
+    background-color: var(--greyF0F3F4);
+    border-radius: var(--border-radius10);
+    border: none;
+    
+    color: var(--black);
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin: 0 2px;
+}
+
+.square:hover {
+    background-color: var(--red);
+    color: var(--white);
+}
+
+.square:disabled {
+    background-color: var(--greyF0F1F3);
+    color: var(--grey97999C);
+}

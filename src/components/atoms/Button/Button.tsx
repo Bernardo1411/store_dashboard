@@ -7,6 +7,7 @@ interface ButtonProps {
   onClick: () => void;
   disabled?: boolean;
   stylesButton?: object;
+  squareButton?: boolean;
 }
 
 function Button({
@@ -14,9 +15,10 @@ function Button({
   onClick,
   disabled,
   stylesButton,
+  squareButton,
 }: ButtonProps): JSX.Element {
   return (
-    <button className={styles.button} style={stylesButton} onClick={onClick} disabled={disabled}>
+    <button className={squareButton ? styles.square : styles.button} style={stylesButton} onClick={onClick} disabled={disabled}>
       <span>{children}</span>
     </button>
   );

@@ -1,0 +1,37 @@
+.select {
+    width: 290px;
+    height: 35px;
+    padding: 0.5rem;
+    border: 2px solid var(--greyF0F1F3);
+    border-radius: var(--border-radius50);
+    font-size: 0.5rem;
+    color: var(--grey6E7380);
+    background-color: var(--white);
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.select:focus {
+    border-color: var(--grey6E7380);
+    outline: none;
+}
+
+.select::placeholder {
+    color: var(--grey6E7380);
+}
+
+.select option {
+    color: var(--grey6E7380);
+    background-color: var(--white);
+}
+
+.select option:hover {
+    background-color: var(--greyF0F3F4);
+}
+
+.select option:checked {
+    background-color: var(--greyF0F3F4);
+}
+
+.select option:checked:hover {
+    background-color: var(--greyF0F3F4);
+}

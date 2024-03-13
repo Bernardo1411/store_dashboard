@@ -27,4 +27,13 @@
   font-size: 2rem;
   font-weight: 500;
   color: #000;
+  margin-right: 10px;
+}
+
+.div_conifg {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 2rem;
 }

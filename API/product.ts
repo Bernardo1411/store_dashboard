@@ -31,7 +31,6 @@ const productsAPI = {
   },
 
   putEditProduct: async (id: number, title: string) => {
-    console.log("aqui");
     const result = await fetch(`https://dummyjson.com/products/${id}`, {
       method: "PUT",
       body: JSON.stringify({
@@ -43,8 +42,6 @@ const productsAPI = {
     });
 
     const data = await result.json();
-
-    console.log(data);
 
     return data;
   },

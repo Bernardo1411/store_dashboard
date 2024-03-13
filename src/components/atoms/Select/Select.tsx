@@ -1,23 +1,31 @@
 import React from "react";
 
+import styles from "./Select.module.css";
+
 interface SelectOption {
-    value: string;
-    label: string;
+  value: string;
+  label: string;
 }
 
 interface SelectProps {
   value: string;
   items: SelectOption[];
+  defaultOption: string;
+  stylesSelect?: object;
   onChange: (category: string) => void;
 }
 
-function Select({ value, items, onChange }: SelectProps) {
+function Select({ value, items, defaultOption, onChange, stylesSelect }: SelectProps) {
   return (
     <select
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
+      className={styles.select}
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      style={stylesSelect}
     >
-      <option value="standard">Padrão</option>
+      <option className={styles.option} value="default">
+        {defaultOption}
+      </option>
       {items &&
         items.map((item) => (
           <option key={item.value} value={item.value}>
