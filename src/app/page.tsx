@@ -25,21 +25,21 @@ interface Product {
 }
 
 function Home(): JSX.Element {
-  const [order, setOrder] = useState("standard");
-  const [category, setCategory] = useState("standard");
-  const [id, setId] = useState(0);
-  const [modalEdit, setModalEdit] = useState(false);
-  const [modalCreate, setModalCreate] = useState(false);
+  const [order, setOrder] = useState<string>("standard");
+  const [category, setCategory] = useState<string>("standard");
+  const [id, setId] = useState<number>(0);
+  const [modalEdit, setModalEdit] = useState<boolean>(false);
+  const [modalCreate, setModalCreate] = useState<boolean>(false);
 
   const {
     products,
     categories,
     loading,
     error,
-    categoryHandler,
     deleteProduct,
     editProduct,
     addNewProduct,
+    getProductsByCategory,
   } = useProducts();
 
   return (
@@ -89,7 +89,7 @@ function Home(): JSX.Element {
           <ul>
             {categories.map((category: string) => (
               <li key={category}>
-                <CardSelector onClick={() => categoryHandler(category)}>
+                <CardSelector onClick={() => getProductsByCategory(category)}>
                   {category}
                 </CardSelector>
               </li>

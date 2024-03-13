@@ -16,13 +16,14 @@ interface Product {
 }
 
 interface APIResponse {
-  products: Product[] ;
+  products: Product[];
 }
 
 function useProducts(): any {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [categories, setCategories] = useState<string[]>([]);
 
   const fetchProducts = async () => {
     setLoading(true);
@@ -75,7 +76,7 @@ function useProducts(): any {
     setLoading(true);
     try {
       const res = await productsAPI.postAddNewProduct(product);
-console.log(res)
+
       setProducts([...products, res]);
       setLoading(false);
     } catch (err: any) {
@@ -84,27 +85,36 @@ console.log(res)
     }
   };
 
-  // Get all categories
-  const arrayCategories: string[] = products.map(
-    (product: any) => product.category
-  );
+  const getCategories = async () => {
+    setLoading(true);
+    try {
+      const res = await productsAPI.getCategories();
 
-  // Remove duplicates
-  const categories: string[] = Array.from(new Set(arrayCategories));
+      setCategories(res);
+      setLoading(false);
+    } catch (err: any) {
+      setError(err);
+      setLoading(false);
+    }
+  };
 
-  const categoryHandler = (category: string) => {
-    if (category === "standard") {
-      setProducts(products);
-    } else {
-      const filteredProducts = products.filter(
-        (product: any) => product.category === category
-      );
-      setProducts(filteredProducts);
+  const getProductsByCategory = async (category: string) => {
+    setLoading(true);
+    try {
+      const res = await productsAPI.getProductsByCategory(category);
+
+      setProducts(res.products);
+      setLoading(false);
+    } catch (err: any) {
+      setError(err);
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchProducts();
+
+    getCategories();
   }, []);
 
   return {
@@ -113,10 +123,10 @@ console.log(res)
     loading,
     error,
     fetchProducts,
-    categoryHandler,
     deleteProduct,
     editProduct,
     addNewProduct,
+    getProductsByCategory,
   };
 }
 

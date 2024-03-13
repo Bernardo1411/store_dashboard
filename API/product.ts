@@ -31,7 +31,7 @@ const productsAPI = {
   },
 
   putEditProduct: async (id: number, title: string) => {
-    console.log('aqui')
+    console.log("aqui");
     const result = await fetch(`https://dummyjson.com/products/${id}`, {
       method: "PUT",
       body: JSON.stringify({
@@ -44,7 +44,7 @@ const productsAPI = {
 
     const data = await result.json();
 
-    console.log(data)
+    console.log(data);
 
     return data;
   },
@@ -62,7 +62,35 @@ const productsAPI = {
     const data = await result.json();
 
     return data;
-  }
+  },
+  getCategories: async () => {
+    const result = await fetch("https://dummyjson.com/products/categories", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = result.json();
+
+    return data;
+  },
+
+  getProductsByCategory: async (category: string) => {
+    const result = await fetch(
+      `https://dummyjson.com/products/category/${category}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const data = result.json();
+
+    return data;
+  },
 };
 
 export default productsAPI;
