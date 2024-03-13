@@ -44,7 +44,7 @@ function Home(): JSX.Element {
 
   return (
     <main className={styles.main}>
-      <section>
+      <section className={styles.section}>
         {modalEdit && (
           <Modal>
             <Button onClick={() => setModalEdit(false)}>Close</Button>
@@ -73,12 +73,8 @@ function Home(): JSX.Element {
             </Button>
           </Modal>
         )}
-        <div>
-          <h1>Home Page</h1>
-          <p>
-            Welcome to the home page. This is the place where you can find
-            products and categories.
-          </p>
+        <div className={styles.head_div}>
+          <h1>Dashboard</h1>
           <Button onClick={() => setModalCreate((oldState) => !oldState)}>
             Add new product
           </Button>
@@ -96,47 +92,47 @@ function Home(): JSX.Element {
             ))}
           </ul>
         </div>
+      </section>
+      <section>
+        <h2>Products</h2>
+        <Select
+          items={categories.map((category: string) => ({
+            value: category,
+            label: category,
+          }))}
+          value={category}
+          onChange={(value) => setCategory(value)}
+        />
+        <p>Ordenar</p>
+        <Select
+          items={[
+            {
+              value: "priceUp",
+              label: "Menor preço",
+            },
+            {
+              value: "priceDown",
+              label: "Maior preço",
+            },
+            {
+              value: "alpha",
+              label: "Ordem alfabética",
+            },
+          ]}
+          onChange={(value) => setOrder(value)}
+          value={order}
+        />
         <div>
-          <h2>Products</h2>
-          <Select
-            items={categories.map((category: string) => ({
-              value: category,
-              label: category,
-            }))}
-            value={category}
-            onChange={(value) => setCategory(value)}
+          {loading && <p>Loading...</p>}
+          {error && <p>Error: {error}</p>}
+          <Table
+            products={products}
+            deleteProduct={deleteProduct}
+            editProduct={(id: number) => {
+              setId(id);
+              setModalEdit((oldState) => !oldState);
+            }}
           />
-          <p>Ordenar</p>
-          <Select
-            items={[
-              {
-                value: "priceUp",
-                label: "Menor preço",
-              },
-              {
-                value: "priceDown",
-                label: "Maior preço",
-              },
-              {
-                value: "alpha",
-                label: "Ordem alfabética",
-              },
-            ]}
-            onChange={(value) => setOrder(value)}
-            value={order}
-          />
-          <div>
-            {loading && <p>Loading...</p>}
-            {error && <p>Error: {error}</p>}
-            <Table
-              products={products}
-              deleteProduct={deleteProduct}
-              editProduct={(id: number) => {
-                setId(id);
-                setModalEdit((oldState) => !oldState);
-              }}
-            />
-          </div>
         </div>
       </section>
     </main>
