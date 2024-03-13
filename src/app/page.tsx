@@ -1,12 +1,13 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import useProducts from "../hooks/useProducts";
 
 import CardSelector from "@/components/atoms/CardSelectors/CardSelector";
-import ProductList from "@/components/molecules/ProductList";
+import Table from "@/components/molecules/Table";
 import Select from "@/components/atoms/Select/Select";
-import Card from "@/components/atoms/Card/Card";
+import Modal from "@/container/Modal";
+import Button from "@/components/atoms/Button/Button";
 
 import styles from "./page.module.css";
 
@@ -26,35 +27,67 @@ interface Product {
 function Home(): JSX.Element {
   const [order, setOrder] = useState("standard");
   const [category, setCategory] = useState("standard");
+  const [id, setId] = useState(0);
+  const [modalEdit, setModalEdit] = useState(false);
+  const [modalCreate, setModalCreate] = useState(false);
 
   const {
     products,
     categories,
     loading,
     error,
-    fetchProducts,
     categoryHandler,
+    deleteProduct,
+    editProduct,
+    addNewProduct,
   } = useProducts();
-
-  useEffect(() => {
-    if (!products || products.length === 0) fetchProducts();
-  }, [products, fetchProducts]);
 
   return (
     <main className={styles.main}>
       <section>
+        {modalEdit && (
+          <Modal>
+            <Button onClick={() => setModalEdit(false)}>Close</Button>
+            <Button onClick={() => editProduct(id, "iphone 10")}>Save</Button>
+          </Modal>
+        )}
+        {modalCreate && (
+          <Modal>
+            <Button onClick={() => setModalCreate(false)}>Close</Button>
+            <Button
+              onClick={() =>
+                addNewProduct({
+                  title: "iphone 10",
+                  brand: "epou",
+                  category: "smartphone",
+                  image: "https://dummyimage.com/600x400/000/fff",
+                  description: "iphone 10",
+                  discountOercentage: 0,
+                  price: 1000,
+                  rating: 5,
+                  stock: 100,
+                })
+              }
+            >
+              Save
+            </Button>
+          </Modal>
+        )}
         <div>
           <h1>Home Page</h1>
           <p>
             Welcome to the home page. This is the place where you can find
             products and categories.
           </p>
+          <Button onClick={() => setModalCreate((oldState) => !oldState)}>
+            Add new product
+          </Button>
         </div>
         <div>
           <h2>Categories</h2>
           {loading && <p>Loading...</p>}
           <ul>
-            {categories.map((category) => (
+            {categories.map((category: string) => (
               <li key={category}>
                 <CardSelector onClick={() => categoryHandler(category)}>
                   {category}
@@ -66,7 +99,7 @@ function Home(): JSX.Element {
         <div>
           <h2>Products</h2>
           <Select
-            items={categories.map((category) => ({
+            items={categories.map((category: string) => ({
               value: category,
               label: category,
             }))}
@@ -95,7 +128,14 @@ function Home(): JSX.Element {
           <div>
             {loading && <p>Loading...</p>}
             {error && <p>Error: {error}</p>}
-            <ProductList products={products} />
+            <Table
+              products={products}
+              deleteProduct={deleteProduct}
+              editProduct={(id: number) => {
+                setId(id);
+                setModalEdit((oldState) => !oldState);
+              }}
+            />
           </div>
         </div>
       </section>

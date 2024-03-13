@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import Button from "../atoms/Button/Button";
-import Card from "../atoms/Card/Card";
+import Element from "../atoms/Element/Element";
 
 interface Product {
   id: number;
@@ -16,25 +16,40 @@ interface Product {
   stock: number;
 }
 
-interface ProductListProps {
+interface TableProps {
   products: Product[];
+  deleteProduct: (id: number) => void;
+  editProduct: (id: number) => void;
 }
 
-function ProductList({ products }: ProductListProps) {
+function Table({ products, deleteProduct, editProduct }: TableProps) {
   const [pagination, setPagination] = useState(0);
-
-  console.log(pagination)
 
   return (
     products &&
     products.length > 0 && (
       <div>
-        <ul>
-          {products
-            .slice(0 + pagination * 6, 6 + pagination * 6)
-            .map((product) => (
-              <li key={product.id}>
-                <Card
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Title</th>
+              <th>Brand</th>
+              <th>Category</th>
+              <th>Image</th>
+              <th>Description</th>
+              <th>Discount Percentage</th>
+              <th>Price</th>
+              <th>Rating</th>
+              <th>Stock</th>
+            </tr>
+          </thead>
+          <tbody>
+            {products
+              .slice(0 + pagination * 6, 6 + pagination * 6)
+              .map((product) => (
+                <Element
+                  key={product.id}
                   id={product.id}
                   title={product.title}
                   brand={product.brand}
@@ -45,10 +60,12 @@ function ProductList({ products }: ProductListProps) {
                   price={product.price}
                   rating={product.rating}
                   stock={product.stock}
+                  deleteProduct={deleteProduct}
+                  editProduct={editProduct}
                 />
-              </li>
-            ))}
-        </ul>
+              ))}
+          </tbody>
+        </table>
         <Button
           onClick={() => setPagination(pagination - 1)}
           disabled={pagination === 0}
@@ -56,7 +73,7 @@ function ProductList({ products }: ProductListProps) {
           Previous
         </Button>
         {products.length > 0 &&
-          new Array(products.length / 6).fill(0).map((_, index) => (
+          new Array(Math.floor(products.length / 6)).fill(0).map((_, index) => (
             <Button
               key={index}
               onClick={() => setPagination(index)}
@@ -67,7 +84,7 @@ function ProductList({ products }: ProductListProps) {
           ))}
         <Button
           onClick={() => setPagination(pagination + 1)}
-          disabled={pagination === Math.floor(products.length / 6)}
+          disabled={pagination + 1 === Math.floor(products.length / 6)}
         >
           Next
         </Button>
@@ -76,4 +93,4 @@ function ProductList({ products }: ProductListProps) {
   );
 }
 
-export default ProductList;
+export default Table;
