@@ -4,6 +4,7 @@ import Button from "../atoms/Button/Button";
 import Element from "../atoms/Element/Element";
 
 import styles from "./Table.module.css";
+import Image from "next/image";
 
 interface Product {
   id: number;
@@ -22,9 +23,17 @@ interface TableProps {
   products: Product[];
   deleteProduct: (id: number) => void;
   editProduct: (id: number) => void;
+  orderProductsByTitle: () => void;
+  orderProductsByBrand: () => void;
 }
 
-function Table({ products, deleteProduct, editProduct }: TableProps) {
+function Table({
+  products,
+  deleteProduct,
+  editProduct,
+  orderProductsByTitle,
+  orderProductsByBrand,
+}: TableProps) {
   const [pagination, setPagination] = useState(0);
 
   return (
@@ -36,9 +45,39 @@ function Table({ products, deleteProduct, editProduct }: TableProps) {
             <tr>
               <th>ID</th>
               <th>Image</th>
-              <th>Title</th>
+              <th>
+                Title
+                <button style={{
+                  backgroundColor: '#00000000',
+                  border: 'none',
+                  }}
+                  onClick={orderProductsByTitle}
+                  >
+                <Image
+                  src="/arrows-up-down.png"
+                  width={15}
+                  height={15}
+                  alt="arrow up and down"
+                />
+                </button>
+              </th>
               <th>Description</th>
-              <th>Brand</th>
+              <th>
+                Brand
+                <button style={{
+                  backgroundColor: '#00000000',
+                  border: 'none',
+                  }}
+                  onClick={orderProductsByBrand}
+                  >
+                <Image
+                  src="/arrows-up-down.png"
+                  width={15}
+                  height={15}
+                  alt="arrow up and down"
+                />
+                </button>
+              </th>
               <th>Category</th>
               <th>Price</th>
               <th>Rating</th>
@@ -69,13 +108,13 @@ function Table({ products, deleteProduct, editProduct }: TableProps) {
           </tbody>
         </table>
         <div className={styles.div_buttons}>
-          <Button
+          {Math.floor(products.length / 6) > 0 && <Button
             squareButton
             onClick={() => setPagination(pagination - 1)}
             disabled={pagination === 0}
           >
             {"<"}
-          </Button>
+          </Button>}
           {products.length > 0 &&
             new Array(Math.floor(products.length / 6))
               .fill(0)
@@ -89,13 +128,13 @@ function Table({ products, deleteProduct, editProduct }: TableProps) {
                   {index + 1}
                 </Button>
               ))}
-          <Button
+          {Math.floor(products.length / 6) > 0 && <Button
             onClick={() => setPagination(pagination + 1)}
             squareButton
             disabled={pagination + 1 === Math.floor(products.length / 6)}
           >
             {">"}
-          </Button>
+          </Button>}
         </div>
       </div>
     )

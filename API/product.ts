@@ -88,6 +88,23 @@ const productsAPI = {
 
     return data;
   },
+
+  getSearchedProducts: async (search: string) => {
+    const result = await fetch(
+      `https://dummyjson.com/products/search?q=${search}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const data = result.json();
+
+    return data;
+  }
+
 };
 
 export default productsAPI;

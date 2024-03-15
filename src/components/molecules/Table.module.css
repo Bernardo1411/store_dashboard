@@ -23,6 +23,7 @@
     font-size: 0.8rem;
     font-weight: 500;
     color: var(--grey413E4B);
+    padding: 5px;
 }
 
 .container table tbody {
