@@ -85,6 +85,11 @@ function Home(): JSX.Element {
     setStock(0);
   };
 
+  const handleDeleteProduct = (id: number) => {
+    setId(id);
+    setModalDelete((oldState) => !oldState);
+  }
+
   return (
     <main className={styles.main}>
       <Toastfy />
@@ -188,6 +193,32 @@ function Home(): JSX.Element {
             <Button onClick={handleAddNewProduct}>Salvar</Button>
           </div>
         </Modal>
+        <Modal showModal={modalDelete} title="Deseja realmente excluir?">
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-around",
+              width: "100%",
+            }}
+          >
+            <Button
+              onClick={() => {
+                setModalDelete(false);
+              }}
+            >
+              Cancelar
+            </Button>
+            <Button
+              onClick={() => {
+                deleteProduct(id);
+                setModalDelete(false);
+              }}
+            >
+              Excluir
+            </Button>
+          </div>
+        </Modal>
         <div className={styles.head_div}>
           <h1>Dashboard</h1>
           <Button onClick={() => setModalCreate((oldState) => !oldState)}>
@@ -226,7 +257,7 @@ function Home(): JSX.Element {
             orderProductsByTitle={orderProductsByTitle}
             orderProductsByBrand={orderProductsByBrand}
             products={products}
-            deleteProduct={deleteProduct}
+            deleteProduct={(id: number) => handleDeleteProduct(id)}
             editProduct={(id: number) => {
               setId(id);
               setModalEdit((oldState) => !oldState);

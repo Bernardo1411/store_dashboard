@@ -1,6 +1,5 @@
 import React from "react";
 import Image from "next/image";
-import useProducts from "@/hooks/useProducts";
 
 import Button from "../Button/Button";
 
